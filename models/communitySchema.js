@@ -57,5 +57,8 @@ communitySchema.pre('save', function (next) {
 
 // Function to generate the slug from the name field
 function generateSlug(name,id) {
-    return `user@${name}${id}`
+    return `community@${name}${id}`
 }
+
+const Community = mongoose.model("Community",communitySchema)
+module.exports = Community

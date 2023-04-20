@@ -24,7 +24,7 @@ router
         const data = user.toObject();
         try {
             const token = user.generateToken(data)
-            res.cookie("intern", token).json()
+            res.cookie("ComSaaS", token).json()
         }
         catch (error) {
             res.status(400).json({ Error: error.message })
@@ -34,7 +34,7 @@ router
 
     .get("/me",async(req,res)=>{
         try{
-            const token = req.cookies.intern
+            const token = req.cookies.ComSaaS
         const userData=jwt.verify(token,process.env.key)
         delete userData.password
         res.json(userData)

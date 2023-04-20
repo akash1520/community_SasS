@@ -10,7 +10,7 @@ router
         try {
             const { name } = req.body
 
-            const token = req.cookies.intern
+            const token = req.cookies.ComSaaS
             const owner_id = jwt.decode(token,process.env.key).id
 
             const role = new Role({ name })
