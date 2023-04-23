@@ -1,6 +1,7 @@
 const express = require("express")
 const Community = require("../models/communitySchema")
 const jwt = require("jsonwebtoken")
+const Member = require("../models/memberSchema")
 const router = express.Router()
 
 async function communityGen(name, owner_id) {
@@ -36,7 +37,22 @@ router
       console.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
-  });
+  })
+  .get("/community/:id/members",async(req,res)=>{
+      const community_name = req.params.id
+      const community = (await Community.find({name:community_name}))[0]
+      console.log(community);
+      const members = await Member.find({community:community._id})
+      console.log(members);
+      res.json(members)
+  })
+  .get("/community/me/owner",async(req,res)=>{
+    const token = req.cookies.ComSaaS
+    const data = jwt.decode(token,process.env.key)
+    const comm_owner_id = data._id
+    const comms = await Community.find({owner:comm_owner_id})
+    res.json(comms)
+  })
 
 // .get("/community", async (req, res) => {
 //     const comms = await Community.find({})
